@@ -23,6 +23,10 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function materias()
+    {
+        return $this->belongsToMany(Materia::class, 'materia_user', 'materiaId', 'userId');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
