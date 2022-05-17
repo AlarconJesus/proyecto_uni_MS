@@ -27,12 +27,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/secciones/getMaterias', [SeccionController::class, 'getMateriaSeccion'])->name('getMaterias');
+Route::post('/secciones/setMaterias', [SeccionController::class, 'setMateriaSeccion'])->name('setMateriaSeccion');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('micuenta', UsuarioController::class);

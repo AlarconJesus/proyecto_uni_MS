@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carrera;
 use Illuminate\Http\Request;
 
 class CarreraController extends Controller
@@ -13,7 +14,8 @@ class CarreraController extends Controller
      */
     public function index()
     {
-        return view('carreras.index');
+        $carreras = Carrera::All();
+        return view('carreras.index', compact('carreras'));
     }
 
     /**
@@ -23,7 +25,7 @@ class CarreraController extends Controller
      */
     public function create()
     {
-        //
+        return view('carreras.crear');
     }
 
     /**
@@ -34,7 +36,11 @@ class CarreraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+
+        $carrera = Carrera::create($input);
+
+        return redirect()->route('carreras.index');
     }
 
     /**
@@ -54,9 +60,9 @@ class CarreraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Carrera $carrera)
     {
-        //
+        return view('carreras.editar', compact('carrera'));
     }
 
     /**
@@ -66,9 +72,16 @@ class CarreraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Carrera $carrera)
     {
-        //
+        // request()->validate([
+        //     'titulo' => 'required',
+        //     'contenido' => 'required',
+        // ]);
+
+        $carrera->update($request->all());
+
+        return redirect()->route('carreras.index');
     }
 
     /**
@@ -77,8 +90,10 @@ class CarreraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Carrera $carrera)
     {
-        //
+        $carrera->delete();
+
+        return redirect()->route('carreras.index');
     }
 }

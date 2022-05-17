@@ -40,6 +40,14 @@
                                             <input type="text" name="codigo" class="form-control">
                                         </div>
                                     </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="trayecto">Trayecto</label>
+                                            <input type="text" name="trayecto" class="form-control">
+                                        </div>
+                                    </div>
+
                                     <div class="col-xs-12 col-sm-12 col-md-12">
 
                                         @if(sizeof($sedes) == 0)

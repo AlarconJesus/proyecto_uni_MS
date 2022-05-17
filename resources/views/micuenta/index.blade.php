@@ -22,6 +22,7 @@
                             </button>
                         </div>
                         @endif
+                        <a class="btn btn-warning" href="{{ route('micuenta.edit', $usuario->id) }}">Editar</a>
 
                         <form action="{{ route('micuenta.update',$usuario) }}" method="POST">
                             @csrf

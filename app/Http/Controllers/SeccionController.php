@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Materia;
 use Illuminate\Http\Request;
 use App\Models\Seccion;
 use App\Models\Sede;
@@ -107,5 +108,21 @@ class SeccionController extends Controller
         $seccione->delete();
 
         return redirect()->route('secciones.index');
+    }
+
+    public function getMateriaSeccion(Request $request)
+    {
+        $materias = Materia::where('trayecto', '=', $request->trayecto)->get();
+        return response()->json(['materias' => $materias], 200);
+    }
+
+    public function setMateriaSeccion(Request $request)
+    {
+        $materias = $request->materias;
+        $seccion = Seccion::where('id', '=', $request->seccion)->first();
+
+        foreach ($materias as $materia) {
+            $seccion->materias()->sync($materia);
+        }
     }
 }

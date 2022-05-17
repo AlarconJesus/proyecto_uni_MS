@@ -43,6 +43,12 @@
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
+                                            <label for="trayecto">Trayecto</label>
+                                            <input type="text" name="trayecto" class="form-control" value="{{$seccione->trayecto}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
                                             <label for="id_sede">Sede</label>
                                             @foreach($sedes as $sede)
                                             <div class="form-check">

@@ -13,16 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('seccions', function (Blueprint $table) {
+        Schema::create('materia_seccion', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('codigo');
-            $table->string('trayecto');
-            $table->foreignId('id_sede')
+            $table->foreignId('id_materia')
                 ->nullable()
-                ->constrained('sedes')
+                ->constrained('materias')
                 ->cascadeOnUpdate()
                 ->nullOnDelete();
+            $table->foreignId('id_seccion')
+                ->nullable()
+                ->constrained('seccions')
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -33,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('secciones');
+        Schema::dropIfExists('materia_seccion');
     }
 };

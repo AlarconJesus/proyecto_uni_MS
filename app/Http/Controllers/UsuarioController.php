@@ -62,8 +62,10 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
+        $usuario = Auth::user();
+        return view('micuenta.editar', compact('usuario'));
     }
 
 
@@ -82,7 +84,6 @@ class UsuarioController extends Controller
         // ]);
 
         $usuario->update($request->all());
-
         return redirect()->route('micuenta.index');
     }
 
