@@ -21,5 +21,15 @@ class Seccion extends Model
         return $this->belongsToMany(Materia::class, 'materia_seccion', 'seccionId', 'materiaId');
     }
 
+    public function profesores()
+    {
+        return $this->belongsToMany(Profesor::class, 'profesor_seccion', 'seccionId', 'profesorId');
+    }
+
+    public function estudiantes()
+    {
+        return $this->belongsToMany(Estudiante::class, 'estudiante_seccion', 'seccionId', 'estudianteId');
+    }
+
     public $timestamps = false;
 }

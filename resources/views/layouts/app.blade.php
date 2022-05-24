@@ -63,6 +63,7 @@
 <script src="{{ mix('assets/js/custom/custom.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+@yield('js')
 @yield('page_js')
 @yield('scripts')
 <script>
@@ -81,4 +82,6 @@
         };
     }(jQuery));
 </script>
+</html>
+
 </html>

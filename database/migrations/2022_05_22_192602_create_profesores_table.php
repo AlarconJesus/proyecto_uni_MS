@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('seccions', function (Blueprint $table) {
+        Schema::create('profesores', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('codigo');
-            $table->string('trayecto');
-            $table->foreignId('id_sede')
-                ->nullable()
-                ->constrained('sedes')
-                ->cascadeOnUpdate()
-                ->nullOnDelete();
+            $table->timestamps();
+            $table->string('nombre_completo');
+            $table->integer('cedula');
+            $table->string('direccion');
+            $table->string('estudios');
         });
     }
 
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('secciones');
+        Schema::dropIfExists('profesores');
     }
 };

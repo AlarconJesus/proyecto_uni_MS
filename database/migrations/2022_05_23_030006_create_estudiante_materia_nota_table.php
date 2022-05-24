@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('materia_seccion', function (Blueprint $table) {
+        Schema::create('estudiante_materia_nota', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('estudianteId');
             $table->unsignedBigInteger('materiaId');
-            $table->unsignedBigInteger('seccionId');
+            $table->string('nota');
 
-            $table->foreign('materiaId')->references('id')->on('materias')->onDelete('cascade');
-            $table->foreign('seccionId')->references('id')->on('seccions')->onDelete('cascade');
+            $table->foreign('estudianteId')->references('id')->on('estudiantes')->onDelete('cascade');
+            $table->foreign('MateriaId')->references('id')->on('Materias')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('materia_seccion');
+        Schema::dropIfExists('estudiante_materia_nota');
     }
 };

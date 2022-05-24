@@ -7,53 +7,35 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h3 class="page__heading">Secciones</h3>
+        <h3 class="page__heading">Estudiantes - {{$seccion->nombre}}</h3>
     </div>
     <div class="section-body">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <a class="btn btn-warning" style="margin-bottom: 10px;" href="{{ route('secciones.create') }}">Nuevo</a>
+                        <!-- <h3 class="text-center">Dashboard Content</h3> -->
 
                         <table id="tabla" class="table table-light table-striped table-bordered shadow-lg mt" style="width: 100%;">
                             <thead style="background-color:#6777ef">
                                 <th style="display: none;">ID</th>
                                 <th style="color:#fff;">Nombre</th>
-                                <th style="color:#fff;">Codigo</th>
                                 <th style="color:#fff;">Trayecto</th>
-                                <th style="color:#fff;">Sede</th>
-                                <th style="color:#fff;">Municipio</th>
-                                <th style="color:#fff;">Estado</th>
                                 <th style="color:#fff;">Acciones</th>
                             </thead>
                             <tbody>
-                                @foreach ($secciones as $seccion)
+                                @foreach($estudiantes as $estudiante)
+                                @if($estudiante->secciones[0]->id == $seccion->id)
                                 <tr>
-                                    <td style="display: none;">{{ $seccion->id }}</td>
-                                    <td>{{ $seccion->nombre }}</td>
-                                    <td>{{ $seccion->codigo }}</td>
-                                    <td>{{ $seccion->trayecto }}</td>
-
-                                    @if ($seccion->sedes)
-                                    <td>{{ $seccion->sedes->nombre }}</td>
-                                    <td>{{ $seccion->sedes->municipio }}</td>
-                                    <td>{{ $seccion->sedes->estado }}</td>
-                                    @else
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    @endif
-
+                                    <td style="display: none;">{{ $estudiante->id }}</td>
+                                    <td>{{ $estudiante->nombre_completo }}</td>
+                                    <td>{{ $estudiante->trayecto }}</td>
                                     <td>
-                                        <a class="btn btn-info" href="{{ route('secciones.edit',$seccion->id) }}">Editar</a>
-                                        <button type="button" class="btn btn-primary btnConfig" id="{{$seccion->id}}" onclick="showModal(`{{$seccion->id}}`, `{{$seccion->trayecto}}`)">Configurar materias</button>
-
-                                        {!! Form::open(['method' => 'DELETE','route' => ['secciones.destroy', $seccion->id],'style'=>'display:inline']) !!}
-                                        {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
-                                        {!! Form::close() !!}
+                                        <a href="" class="btn btn-info">Ver/imprimir notas</a>
+                                        <button type="button" class="btn btn-primary btnConfig" id="{{$estudiante->id}}" onclick="showModal(`{{$seccion->id}}`)">Configurar notas</button>
                                     </td>
                                 </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -65,13 +47,12 @@
         </div>
     </div>
 </section>
-
 <!-- Modal configuracion de materias-->
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Configuración de materias</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Notas</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -82,30 +63,31 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="getMateriasSelected();">Guardar</button>
+                <button type="button" class="btn btn-primary" onclick="getMateriasNotasSelected();">Guardar</button>
             </div>
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
+@section('js')
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap5.min.js"></script>
 <script>
     let currentSectionId;
+    let currentEstudianteId;
 
-    const sections = Object.values(document.getElementsByClassName('btnConfig'));
-    sections.forEach(section => {
-        section.addEventListener('mousedown', event => {
+    const estudiantes = Object.values(document.getElementsByClassName('btnConfig'));
+    estudiantes.forEach(estudiante => {
+        estudiante.addEventListener('mousedown', event => {
             event.preventDefault();
-            currentSectionId = event.path[0].id;
+            currentEstudianteId = event.path[0].id;
         });
     });
 
-    function showModal(seccion, trayecto) {
-
+    function showModal(seccion) {
         $('#list_materias').empty();
 
-        if (!trayecto) {
+        if (!seccion) {
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -120,7 +102,7 @@
 
             Toast.fire({
                 icon: 'error',
-                title: 'No existe parametro de trayecto'
+                title: 'No existe parametro de seccion'
             })
             return false;
         }
@@ -129,12 +111,11 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token" ]').attr('content')
                 },
                 method: "GET",
-                url: "/secciones/getMaterias",
+                url: "/notas/getMaterias",
                 data: {
-                    trayecto: trayecto,
+                    seccion: seccion,
                 }
             }).done(function(res) {
-
                 $('#sectionID').val(seccion)
 
 
@@ -142,11 +123,10 @@
                     res.materias.forEach(element => {
 
                         let check = "";
-                        check = `<div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="materia-${element.id}" value="${element.id}">
-                        <label class="form-check-label" for="exampleCheck1">${element.nombre}</label>
+                        check = `<div class="form-check"  id="${element.id}">
+                        <label class="form-check-label" id="materia-${element.id}" for="exampleCheck1">${element.nombre}</label>
+                        <input type="number" class="notas">
                         </div>`;
-
                         $('#list_materias').append(check);
 
                     });
@@ -174,23 +154,26 @@
     }
 
     //esta function es la que va a obtener los checkbox seleccionados y guardarlos en un array
-    function getMateriasSelected() {
+    function getMateriasNotasSelected() {
         let arraySelected = [];
 
-        let listaMaterias = document.getElementById('list_materias');
+        let notas = document.getElementsByClassName('notas');
 
-        let checkboxes = document.getElementById('list_materias').children;
-        for (let i = 0; i < checkboxes.length; i++) {
+        let materias = document.getElementById('list_materias').children;
+        for (let i = 0; i < materias.length; i++) {
             // Comprobando los inputs
-            if (checkboxes[i].children[0].checked) {
-                let id = checkboxes[i].children[0].value;
-                arraySelected.push(id);
+            let id = materias[i].id;
+            let nota = notas[i].value;
+            if (nota === '') {
+                arraySelected.push([id, 'N/A']);
+            } else {
+                arraySelected.push([id, nota]);
             }
         }
 
         if (arraySelected.length > 0) {
             setMateriasSection(arraySelected);
-            // console.log('funciona hasta antes de guardar');
+
         } else {
             const Toast = Swal.mixin({
                 toast: true,
@@ -211,21 +194,20 @@
         }
     }
     //funcion para realizar request de guardado de materias a la seccion
-    function setMateriasSection(materias) {
+    function setMateriasSection(materia_nota) {
         $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token" ]').attr('content')
                 },
                 method: "POST",
-                url: "/secciones/setMaterias",
+                url: "/notas/setNotas",
                 data: {
-                    // seccion: $('#seccionID').val(),
-                    seccion: currentSectionId,
-                    materias: materias
+                    estudiante: currentEstudianteId,
+                    materias_notas: materia_nota
                 }
             }).done(function(res) {
-                console.log(res.materias);
-                if (res.materias.length > 0) {
+                console.log(res.calificacion);
+                if (res.calificacion) {
                     $('#exampleModalLong').modal("hide");
 
 
@@ -259,11 +241,6 @@
 
     }
 </script>
-@section('js')
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap5.min.js"></script>
-
 <script>
     $(document).ready(function() {
         $('#tabla').DataTable();

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Materia;
 use Illuminate\Http\Request;
+use App\Models\Profesor;
 use App\Models\Seccion;
-use App\Models\Sede;
 
-class SeccionController extends Controller
+class ProfesorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class SeccionController extends Controller
      */
     public function index()
     {
-        $secciones = Seccion::All();
-        return view('secciones.index', compact('secciones'));
+        $profesores = Profesor::All();
+        return view('profesores.index', compact('profesores'));
     }
 
     /**
@@ -25,10 +24,10 @@ class SeccionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
-        $sedes = Sede::All();
-        return view('secciones.crear', compact('sedes'));
+        return view('profesores.crear');
     }
 
     /**
@@ -49,10 +48,10 @@ class SeccionController extends Controller
         $input = $request->all();
         // $input['password'] = Hash::make($input['password']);
 
-        $user = Seccion::create($input);
+        $user = Profesor::create($input);
         // $user->assignRole($request->input('roles'));
 
-        return redirect()->route('secciones.index');
+        return redirect()->route('profesores.index');
     }
 
     /**
@@ -72,10 +71,9 @@ class SeccionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Seccion $seccione)
+    public function edit(Profesor $profesore)
     {
-        $sedes = Sede::All();
-        return view('secciones.editar', compact('seccione', 'sedes'));
+        return view('profesores.editar', compact('profesore'));
     }
 
     /**
@@ -85,16 +83,16 @@ class SeccionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Seccion $seccione)
+    public function update(Request $request, Profesor $profesore)
     {
         // request()->validate([
         //     'titulo' => 'required',
         //     'contenido' => 'required',
         // ]);
 
-        $seccione->update($request->all());
+        $profesore->update($request->all());
 
-        return redirect()->route('secciones.index');
+        return redirect()->route('profesores.index');
     }
 
     /**
@@ -103,31 +101,31 @@ class SeccionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Seccion $seccione)
+    public function destroy(Profesor $profesore)
     {
-        $seccione->delete();
+        $profesore->delete();
 
-        return redirect()->route('secciones.index');
+        return redirect()->route('profesores.index');
     }
 
-    public function getMateriaSeccion(Request $request)
+    public function getSeccionProfesor(Request $request)
     {
-        $materias = Materia::where('trayecto', '=', $request->trayecto)->get();
-        return response()->json(['materias' => $materias], 200);
+        $secciones = Seccion::All();
+        return response()->json(['secciones' => $secciones], 200);
     }
 
-    public function setMateriaSeccion(Request $request)
+    public function setSeccionProfesor(Request $request)
     {
-        $materias = $request->materias;
-        $seccion = Seccion::where('id', '=', $request->seccion)->first();
+        $secciones = $request->secciones;
+        $profesor = Profesor::where('id', '=', $request->profesor)->first();
 
         // $seccion->attachMaterias($materias);
-        $seccion->materias()->sync($materias);
+        $profesor->secciones()->sync($secciones);
 
-        $materias = Seccion::with('materias')->find($request->seccion);
+        $secciones = Profesor::with('secciones')->find($request->profesor);
         // si son varias relaciones se envia un array
 
         // Aqui estoy retornando el arreglo de materias.
-        return response()->json(['materias' => $materias->materias]);
+        return response()->json(['secciones' => $secciones->secciones]);
     }
 }

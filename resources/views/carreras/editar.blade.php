@@ -3,7 +3,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h3 class="page__heading">Editar Carrera</h3>
+        <h3 class="page__heading">Editar Blog</h3>
     </div>
     <div class="section-body">
         <div class="row">
@@ -24,19 +24,44 @@
                         @endif
 
 
-                        <form action="{{ route('carreras.update',$carrera) }}" method="POST">
+                        <form action="{{ route('materias.update',$materia) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
                                         <label for="nombre">Nombre</label>
-                                        <input type="text" name="nombre" class="form-control" value="{{ $carrera->nombre }}">
+                                        <input type="text" name="titulo" class="form-control" value="{{ $materia->nombre }}">
                                     </div>
                                 </div>
-                                <br>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
-                            </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="trimestre">Trimestre</label>
+                                            <input type="text" name="trimestre" class="form-control" value={{$materia->trimestre}}>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="trayecto">Trayecto</label>
+                                            <input type="text" name="trayecto" class="form-control" value={{$materia->trayecto}}>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="id_sede">Carreras</label>
+                                            @foreach($carreras as $carrera)
+                                            <div class="form-check">
+                                                <input type="radio" id="{{$carrera->id}}" name="id_carrera" value="{{$carrera->id}}">
+                                                <label class="form-check-label" for="{{$carrera->id}}">
+                                                    {{$carrera->nombre}}
+                                                </label>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
                         </form>
 
                     </div>

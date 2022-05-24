@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carrera;
 use Illuminate\Http\Request;
 use App\Models\Materia;
 
@@ -23,9 +24,11 @@ class MateriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
-        return view('materias.crear');
+        $carreras = Carrera::All();
+        return view('materias.crear', compact('carreras'));
     }
 
     /**
@@ -71,7 +74,8 @@ class MateriaController extends Controller
      */
     public function edit(Materia $materia)
     {
-        return view('materias.editar', compact('materia'));
+        $carreras = Carrera::All();
+        return view('materias.editar', compact('carreras', 'materia'));
     }
 
     /**

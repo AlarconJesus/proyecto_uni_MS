@@ -8,6 +8,8 @@ use App\Http\Controllers\NotaController;
 use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\SedeController;
+use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\ProfesorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,11 +31,18 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/secciones/getMaterias', [SeccionController::class, 'getMateriaSeccion'])->name('getMaterias');
 Route::post('/secciones/setMaterias', [SeccionController::class, 'setMateriaSeccion'])->name('setMateriaSeccion');
+Route::get('/profesores/getSecciones', [ProfesorController::class, 'getSeccionProfesor'])->name('getSecciones');
+Route::post('/profesores/setSecciones', [ProfesorController::class, 'setSeccionProfesor'])->name('setSeccionProfesor');
+Route::get('/estudiantes/getSecciones', [EstudianteController::class, 'getSeccionEstudiante'])->name('getSecciones');
+Route::post('/estudiantes/setSecciones', [EstudianteController::class, 'setSeccionEstudiante'])->name('setSeccionEstudiante');
+Route::get('/notas/getEstudiantes/{id}', [NotaController::class, 'getSeccionEstudiante'])->name('getEstudiantes');
+Route::get('/notas/getMaterias', [NotaController::class, 'getSeccionMateria'])->name('getSecciones');
+Route::post('/notas/setNotas', [NotaController::class, 'setMateriaEstudianteNota'])->name('setMateriaEstudianteNota');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('micuenta', UsuarioController::class);
-    Route::resource('estudiantes', UsuarioController::class);
-    Route::resource('profesores', ProfesoresController::class);
+    Route::resource('estudiantes', EstudianteController::class);
+    Route::resource('profesores', ProfesorController::class);
     Route::resource('materias', MateriaController::class);
     Route::resource('notas', NotaController::class);
     Route::resource('roles', RolController::class);

@@ -13,20 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('materias', function (Blueprint $table) {
+        Schema::create('estudiante_seccion', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('estudianteId');
+            $table->unsignedBigInteger('seccionId');
+
+            $table->foreign('estudianteId')->references('id')->on('estudiantes')->onDelete('cascade');
+            $table->foreign('seccionId')->references('id')->on('seccions')->onDelete('cascade');
             $table->timestamps();
-            $table->string('nombre');
-            $table->string('trayecto');
-            $table->string('trimestre');
-            $table->foreignId('id_carrera')
-                ->nullable()
-                ->constrained('carreras')
-                ->cascadeOnUpdate()
-                ->nullOnDelete();
         });
     }
-    // borrar la tabla sedes!! desde phpmyadmin
 
     /**
      * Reverse the migrations.
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('materias');
+        Schema::dropIfExists('estudiante_seccion');
     }
 };

@@ -46,6 +46,19 @@
                                             <input type="text" name="trayecto" class="form-control" value={{$materia->trayecto}}>
                                         </div>
                                     </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="id_sede">Carreras</label>
+                                            @foreach($carreras as $carrera)
+                                            <div class="form-check">
+                                                <input type="radio" id="{{$carrera->id}}" name="id_carrera" value="{{$carrera->id}}">
+                                                <label class="form-check-label" for="{{$carrera->id}}">
+                                                    {{$carrera->nombre}}
+                                                </label>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                     <br>
                                     <button type="submit" class="btn btn-primary">Guardar</button>
                                 </div>

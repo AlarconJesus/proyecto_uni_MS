@@ -62,10 +62,9 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(User $micuentum)
     {
-        $usuario = Auth::user();
-        return view('micuenta.editar', compact('usuario'));
+        return view('micuenta.editar', compact('micuentum'));
     }
 
 
@@ -76,14 +75,14 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $usuario)
+    public function update(Request $request, User $micuentum)
     {
         // request()->validate([
         //     'titulo' => 'required',
         //     'contenido' => 'required',
         // ]);
 
-        $usuario->update($request->all());
+        $micuentum->update($request->all());
         return redirect()->route('micuenta.index');
     }
 

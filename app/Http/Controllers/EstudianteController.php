@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Materia;
-use Illuminate\Http\Request;
 use App\Models\Seccion;
-use App\Models\Sede;
+use Illuminate\Http\Request;
+use App\Models\Estudiante;
 
-class SeccionController extends Controller
+class EstudianteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class SeccionController extends Controller
      */
     public function index()
     {
-        $secciones = Seccion::All();
-        return view('secciones.index', compact('secciones'));
+        $estudiantes = Estudiante::All();
+        return view('estudiantes.index', compact('estudiantes'));
     }
 
     /**
@@ -25,10 +24,11 @@ class SeccionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
-        $sedes = Sede::All();
-        return view('secciones.crear', compact('sedes'));
+        $secciones = Seccion::All();
+        return view(' estudiantes.crear', compact('secciones'));
     }
 
     /**
@@ -49,10 +49,10 @@ class SeccionController extends Controller
         $input = $request->all();
         // $input['password'] = Hash::make($input['password']);
 
-        $user = Seccion::create($input);
+        $user = Estudiante::create($input);
         // $user->assignRole($request->input('roles'));
 
-        return redirect()->route('secciones.index');
+        return redirect()->route('estudiantes.index');
     }
 
     /**
@@ -72,10 +72,10 @@ class SeccionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Seccion $seccione)
+    public function edit(Estudiante $estudiante)
     {
-        $sedes = Sede::All();
-        return view('secciones.editar', compact('seccione', 'sedes'));
+        $secciones = Seccion::All();
+        return view(' estudiantes.editar', compact('estudiante', 'secciones'));
     }
 
     /**
@@ -85,16 +85,16 @@ class SeccionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Seccion $seccione)
+    public function update(Request $request, Estudiante $estudiante)
     {
         // request()->validate([
         //     'titulo' => 'required',
         //     'contenido' => 'required',
         // ]);
 
-        $seccione->update($request->all());
+        $estudiante->update($request->all());
 
-        return redirect()->route('secciones.index');
+        return redirect()->route('estudiantes.index');
     }
 
     /**
@@ -103,31 +103,31 @@ class SeccionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Seccion $seccione)
+    public function destroy(Estudiante $estudiante)
     {
-        $seccione->delete();
+        $estudiante->delete();
 
-        return redirect()->route('secciones.index');
+        return redirect()->route('estudiantes.index');
     }
 
-    public function getMateriaSeccion(Request $request)
+    public function getSeccionEstudiante(Request $request)
     {
-        $materias = Materia::where('trayecto', '=', $request->trayecto)->get();
-        return response()->json(['materias' => $materias], 200);
+        $secciones = Seccion::where('trayecto', '=', $request->trayecto)->get();
+        return response()->json(['secciones' => $secciones], 200);
     }
 
-    public function setMateriaSeccion(Request $request)
+    public function setSeccionEstudiante(Request $request)
     {
-        $materias = $request->materias;
-        $seccion = Seccion::where('id', '=', $request->seccion)->first();
+        $secciones = $request->secciones;
+        $estudiante = Estudiante::where('id', '=', $request->estudiante)->first();
 
         // $seccion->attachMaterias($materias);
-        $seccion->materias()->sync($materias);
+        $estudiante->secciones()->sync($secciones);
 
-        $materias = Seccion::with('materias')->find($request->seccion);
+        $secciones = Estudiante::with('secciones')->find($request->estudiante);
         // si son varias relaciones se envia un array
 
         // Aqui estoy retornando el arreglo de materias.
-        return response()->json(['materias' => $materias->materias]);
+        return response()->json(['secciones' => $secciones->secciones]);
     }
 }

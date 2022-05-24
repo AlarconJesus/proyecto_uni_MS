@@ -23,14 +23,14 @@
                         </div>
                         @endif
 
-                        <form action="{{ route('micuenta.update',$usuario) }}" method="POST">
+                        <form action="{{ route('micuenta.update',$micuentum) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
                                         <label for="name">Nombre</label>
-                                        <input type="text" name="name" class="form-control" value="{{ $usuario->name }}">
+                                        <input type="text" name="name" class="form-control" value="{{ $micuentum->name }}">
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -38,7 +38,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input type="email" name="email" class="form-control" value="{{$usuario->email}}">
+                                            <input type="email" name="email" class="form-control" value="{{$micuentum->email}}">
                                         </div>
                                     </div>
                                     <br>

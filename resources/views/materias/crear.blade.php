@@ -3,7 +3,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h3 class="page__heading">Crear Blog</h3>
+        <h3 class="page__heading">Crear Materia</h3>
     </div>
     <div class="section-body">
         <div class="row">
@@ -43,6 +43,28 @@
                                             <label for="trayecto">Trayecto</label>
                                             <input type="text" name="trayecto" class="form-control">
                                         </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+
+                                        @if(sizeof($carreras) == 0)
+                                        <label for="id_carrera">Carrera</label>
+                                        <h3>No hay PNFs registradas, crea una primero. </h3>
+                                        <a href="/sedes" class="btn btn-warning">Ir a PNFs</a>
+
+                                        @else
+                                        <div class="form-group">
+                                            <label for="id_carrera">PNF</label>
+                                            @foreach($carreras as $carrera)
+                                            <div class="form-check">
+                                                <input type="radio" id="{{$carrera->id}}" name="id_carrera" value="{{$carrera->id}}">
+                                                <label class="form-check-label" for="{{$carrera->id}}">
+                                                    {{$carrera->nombre}}, {{$carrera->municipio}}, {{$carrera->estado}}
+                                                </label>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        @endif
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">Guardar</button>

@@ -22,7 +22,6 @@
                             </button>
                         </div>
                         @endif
-                        <a class="btn btn-warning" href="{{ route('micuenta.edit', $usuario->id) }}">Editar</a>
 
                         <form action="{{ route('micuenta.update',$usuario) }}" method="POST">
                             @csrf
@@ -31,7 +30,7 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
                                         <label for="name">Nombre</label>
-                                        <input type="text" name="name" class="form-control" value="{{ $usuario->name }}">
+                                        <input type="text" name="name" disabled class="form-control" value="{{ $usuario->name }}">
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -39,11 +38,12 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input type="email" name="email" class="form-control" value="{{$usuario->email}}">
+                                            <input type="email" name="email" disabled class="form-control" value="{{$usuario->email}}">
                                         </div>
                                     </div>
                                     <br>
-                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <a class="btn btn-warning" href="{{ route('micuenta.edit',$usuario->id) }}">Editar</a>
+                                    <!-- <button type="submit" class="btn btn-primary">Editar</button> -->
                                 </div>
                         </form>
 

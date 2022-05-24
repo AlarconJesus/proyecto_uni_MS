@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap5.min.css">
+@endsection
+
 @section('content')
 <section class="section">
     <div class="section-header">
@@ -11,9 +15,9 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- <h3 class="text-center">Dashboard Content</h3> -->
-                        <a class="btn btn-warning" href="{{ route('sedes.create') }}">Nuevo</a>
+                        <a class="btn btn-warning" style="margin-bottom: 10px;" href="{{ route('sedes.create') }}">Nuevo</a>
 
-                        <table class="table table-striped mt-2">
+                        <table id="tabla" class="table table-light table-striped table-bordered shadow-lg mt" style="width: 100%;">
                             <thead style="background-color:#6777ef">
                                 <th style="display: none;">ID</th>
                                 <th style="color:#fff;">Nombre</th>
@@ -48,4 +52,16 @@
         </div>
     </div>
 </section>
+@section('js')
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#tabla').DataTable();
+    });
+</script>
+@endsection
+
 @endsection

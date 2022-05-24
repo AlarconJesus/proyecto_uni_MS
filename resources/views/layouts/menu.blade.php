@@ -20,13 +20,13 @@
     <a class="nav-link" href="/notas">
         <i class=" fas fa-list-ol"></i><span>Notas</span>
     </a>
-    <a class="nav-link" href="/roles">
+    <!-- <a class="nav-link" href="/roles">
         <i class=" fas fa-user-lock"></i><span>Roles</span>
-    </a>
+    </a> -->
     <a class="nav-link" href="/sedes">
         <i class="fas fa-building"></i><span>Sedes</span>
     </a>
     <a class="nav-link" href="/carreras">
-        <i class="fas fa-book"></i><span>Carreras</span>
+        <i class="fas fa-book"></i><span>PNF</span>
     </a>
 </li>
